@@ -7,6 +7,7 @@ public class XRF_RaycastInteractions_CameraMouse : MonoBehaviour
 {
     public float laserDistance = 100.0f;
     public GameObject raycastCamera;
+    public GameObject cameraRig;
     private bool dontHighlight;
     private Material[] tempMaterialsHigh;
     private Material[] matsHigh;
@@ -101,14 +102,15 @@ public class XRF_RaycastInteractions_CameraMouse : MonoBehaviour
             {
 
                 //i shot out a ray and hit something with an interaction controller
-                Debug.Log("I hit something with an interaction controller on it");
+                //Debug.Log("I hit something with an interaction controller on it");
                 endPoint = myRayHit.point;
 
 
                 if (hitObject.GetComponent<XRF_InteractionController>().isTeleporter)
                 {
-                    Debug.Log("this is a teleporter");
+                    //Debug.Log("this is a teleporter");
                     RayMissed();
+                    Clickable = false;
                     Teleportable = true;
                     feetIcon.transform.position = endPoint;
                     feetIcon.SetActive(true);
@@ -123,7 +125,7 @@ public class XRF_RaycastInteractions_CameraMouse : MonoBehaviour
                     Clickable = false;
                     feetIcon.SetActive(false);
                     Teleportable = false;
-                    Debug.Log("hey i hit a grabbable");
+                    //Debug.Log("hey i hit a grabbable");
                     grabable = true;
                 }
                 else
@@ -155,8 +157,12 @@ public class XRF_RaycastInteractions_CameraMouse : MonoBehaviour
 
     public void ClickTheButton()
     {
+        Debug.Log("i clicked");
+
         if (Clickable)
         {
+            Debug.Log("clickable");
+
             XRF_InteractionController[] myInteractions = hitObject.GetComponents<XRF_InteractionController>();
             foreach (XRF_InteractionController t in myInteractions)
             {
@@ -165,6 +171,8 @@ public class XRF_RaycastInteractions_CameraMouse : MonoBehaviour
         }
         else if (grabable)
         {
+            Debug.Log("grabbable");
+
             grabbedObject = hitObject;
             iGrabbedYou = true;
             grabbedObject.GetComponent<Collider>().enabled = false;
@@ -172,7 +180,9 @@ public class XRF_RaycastInteractions_CameraMouse : MonoBehaviour
         }
         else if (Teleportable)
         {
-            Debug.Log("Flythrough Camera doesn't teleport");
+            Debug.Log("teleportable");
+
+            cameraRig.transform.position = new Vector3(endPoint.x, endPoint.y, endPoint.z);
         }
     }
     public void UnClickTheButton()

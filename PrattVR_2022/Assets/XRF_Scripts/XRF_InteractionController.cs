@@ -15,7 +15,8 @@ public class XRF_InteractionController : MonoBehaviour
         OnOffController,
         GrabAndReturn,
         GrabAndStay,
-        TeleportController
+        TeleportController,
+        AudioPlayer
     };
 
     public InteractionType myType = InteractionType.AnimationController;  // this public var should appear as a drop down
@@ -38,12 +39,16 @@ public class XRF_InteractionController : MonoBehaviour
     public GameObject[] StartONClickOFF;
     private bool OnOffSwitch;
 
-    //Make Camera Child stuff
-    public GameObject objectToBecomeParent;
+
 
     //grab stuff
     public Vector3 originalPos = Vector3.zero;
     public bool isGrabbable;
+
+    //audio stuff
+    public AudioSource theAudioSource;
+    public AudioClip theAudioClip;
+
 
     private void Start()
     {
@@ -76,7 +81,15 @@ public class XRF_InteractionController : MonoBehaviour
         {
             isGrabbable = true;
         }
-
+        else if (myType == InteractionType.AudioPlayer)
+        {
+            //stop the audio clip
+            //Debug.Log("hello im an audio player");
+            theAudioSource.clip = theAudioClip;
+            theAudioSource.playOnAwake = false;
+            theAudioSource.loop = false;
+            theAudioSource.Pause();
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -181,6 +194,15 @@ public class XRF_InteractionController : MonoBehaviour
         else if (myType == InteractionType.TeleportController)
         {
             //movement handled in vr conroller raycast interactions .cs
+        }
+        else if (myType == InteractionType.AudioPlayer)
+        {
+            //play the audio from 0
+
+            //need audio source
+            //need audio clip
+            theAudioSource.clip = theAudioClip;
+            theAudioSource.Play(0);
         }
     }
     void OnOff(bool bool1, bool bool2)

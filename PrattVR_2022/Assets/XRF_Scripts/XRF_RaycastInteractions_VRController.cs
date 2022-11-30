@@ -39,6 +39,7 @@ public class XRF_RaycastInteractions_VRController : MonoBehaviour
     private bool joystickDown = false;
     private float joystickDownTolerance = 0.6f;
     private float joystickUpTolerance = 0.4f;
+    public bool isLeftHand = false;
 
     #endregion
 
@@ -219,54 +220,114 @@ public class XRF_RaycastInteractions_VRController : MonoBehaviour
     void checkForOculusInput()
     {
         //OCULUS TOUCH TRIGGERS
-        float LTrigger = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger);//(range of 0.0f to 1.0f)
-        float RTrigger = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger);//(range of 0.0f to 1.0f)
-        if (!triggerDown)
+        if(isLeftHand)
         {
-            if (LTrigger > triggerDownTolerance || RTrigger > triggerDownTolerance)
+            float LTrigger = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger);//(range of 0.0f to 1.0f)
+            if (!triggerDown)
             {
-                Debug.Log("Trigger clicked.");
-                triggerDown = true;
-                TriggerClick();
+                if (LTrigger > triggerDownTolerance)
+                {
+                    Debug.Log("Trigger clicked.");
+                    triggerDown = true;
+                    TriggerClick();
+                }
+            }
+            else
+            {
+                if (LTrigger < triggerUpTolerance)
+                {
+                    Debug.Log("Trigger unclicked.");
+                    triggerDown = false;
+                    TriggerUnClick();
+                }
             }
         }
         else
         {
-            if (LTrigger < triggerUpTolerance && RTrigger < triggerUpTolerance)
+            float RTrigger = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger);//(range of 0.0f to 1.0f)
+            if (!triggerDown)
             {
-                Debug.Log("Trigger unclicked.");
-                triggerDown = false;
-                TriggerUnClick();
+                if (RTrigger > triggerDownTolerance)
+                {
+                    Debug.Log("Trigger clicked.");
+                    triggerDown = true;
+                    TriggerClick();
+                }
+            }
+            else
+            {
+                if (RTrigger < triggerUpTolerance)
+                {
+                    Debug.Log("Trigger unclicked.");
+                    triggerDown = false;
+                    TriggerUnClick();
+                }
             }
         }
 
-        //OCULUS TOUCH JOYSTICKS
-        Vector2 LJoystick = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.LTouch);//(X/Y range of -1.0f to 1.0f)
-        Vector2 RJoystick = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.RTouch);//(X/Y range of -1.0f to 1.0f)
-        if (!joystickDown)
+
+
+        if (isLeftHand)
         {
-            if (LJoystick.x > joystickDownTolerance || RJoystick.x > joystickDownTolerance)
+            //OCULUS TOUCH JOYSTICKS
+            Vector2 LJoystick = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.LTouch);//(X/Y range of -1.0f to 1.0f)
+            if (!joystickDown)
             {
-                Debug.Log("Joystick clicked right.");
-                joystickDown = true;
-                JoyRightClick();
+                if (LJoystick.x > joystickDownTolerance)
+                {
+                    Debug.Log("Joystick clicked right.");
+                    joystickDown = true;
+                    JoyRightClick();
+                }
+                else if (LJoystick.x < -joystickDownTolerance)
+                {
+                    Debug.Log("Joystick clicked left.");
+                    joystickDown = true;
+                    JoyLeftClick();
+                }
             }
-            else if (LJoystick.x < -joystickDownTolerance || RJoystick.x < -joystickDownTolerance)
+            else
             {
-                Debug.Log("Joystick clicked left.");
-                joystickDown = true;
-                JoyLeftClick();
+                //if the absolute value of both joysticks is less than the tolerance, we have unclicked
+                if (Math.Abs(LJoystick.x) < joystickUpTolerance)
+                {
+                    Debug.Log("Joystick unclicked.");
+                    joystickDown = false;
+                }
             }
         }
         else
         {
-            //if the absolute value of both joysticks is less than the tolerance, we have unclicked
-            if (Math.Abs(LJoystick.x) < joystickUpTolerance && Math.Abs(RJoystick.x) < joystickUpTolerance)
+            //OCULUS TOUCH JOYSTICKS
+            Vector2 RJoystick = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.RTouch);//(X/Y range of -1.0f to 1.0f)
+            if (!joystickDown)
             {
-                Debug.Log("Joystick unclicked.");
-                joystickDown = false;
+                if (RJoystick.x > joystickDownTolerance)
+                {
+                    Debug.Log("Joystick clicked right.");
+                    joystickDown = true;
+                    JoyRightClick();
+                }
+                else if (RJoystick.x < -joystickDownTolerance)
+                {
+                    Debug.Log("Joystick clicked left.");
+                    joystickDown = true;
+                    JoyLeftClick();
+                }
+            }
+            else
+            {
+                //if the absolute value of both joysticks is less than the tolerance, we have unclicked
+                if (Math.Abs(RJoystick.x) < joystickUpTolerance)
+                {
+                    Debug.Log("Joystick unclicked.");
+                    joystickDown = false;
+                }
             }
         }
+
+
+
     }
 
 

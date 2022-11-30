@@ -4,6 +4,7 @@
 public class XRF_FlythroughCameraController : MonoBehaviour
 {
     public GameObject mainCamera;
+    public GameObject cameraRig;
 
     public int speedMultiplier = 6;
     public int movementSpeed = 5;
@@ -41,7 +42,7 @@ public class XRF_FlythroughCameraController : MonoBehaviour
             //rotation of game object
             lastMouseRot = Input.mousePosition - lastMouseRot;
             lastMouseRot = new Vector3(0.0f, lastMouseRot.x * mouseSensitivity, 0.0f);
-            lastMouseRot = new Vector3(0.0f, mainCamera.transform.eulerAngles.y + lastMouseRot.y, 0.0f);
+            lastMouseRot = new Vector3(0.0f, cameraRig.transform.eulerAngles.y + lastMouseRot.y, 0.0f);
             //mainCamera.transform.eulerAngles = lastMouseRot;
 
 
@@ -52,8 +53,13 @@ public class XRF_FlythroughCameraController : MonoBehaviour
             lastMousePitch = new Vector3(mainCamera.transform.localEulerAngles.x + Mathf.Clamp(lastMousePitch.x, -89, 89), 0.0f, 0.0f);
             //mainCamera.transform.localEulerAngles = lastMousePitch;
 
-            Vector3 cameraRotation = lastMouseRot + lastMousePitch;
-            mainCamera.transform.eulerAngles = cameraRotation;
+
+            //Vector3 cameraRotation = lastMouseRot + lastMousePitch;
+            //mainCamera.transform.eulerAngles = cameraRotation;
+
+            cameraRig.transform.eulerAngles = lastMouseRot;
+            mainCamera.transform.localEulerAngles = lastMousePitch;
+
         }
 
         lastMouseRot = Input.mousePosition;
@@ -75,21 +81,21 @@ public class XRF_FlythroughCameraController : MonoBehaviour
         }
 
         p = p * Time.deltaTime;
-        Vector3 newPosition = mainCamera.transform.position;
+        Vector3 newPosition = cameraRig.transform.position;
 
-        mainCamera.transform.Translate(p);
+        cameraRig.transform.Translate(p);
 
         if (Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.E))
         {
-            newPosition.y = mainCamera.transform.position.y;
+            newPosition.y = cameraRig.transform.position.y;
         }
         else
         {
-            newPosition.x = mainCamera.transform.position.x;
-            newPosition.z = mainCamera.transform.position.z;
+            newPosition.x = cameraRig.transform.position.x;
+            newPosition.z = cameraRig.transform.position.z;
         }
 
-        mainCamera.transform.position = newPosition;
+        cameraRig.transform.position = newPosition;
 
 
         //<<< HANDLE MOVEMENT ABOVE

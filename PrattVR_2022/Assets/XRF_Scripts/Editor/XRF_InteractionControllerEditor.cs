@@ -97,5 +97,12 @@ public class XRF_InteractionControllerEditor : Editor
         {
 
         }
+        else if (script.myType == XRF_InteractionController.InteractionType.AudioPlayer)
+        {
+            script.theAudioSource = (AudioSource)EditorGUILayout.ObjectField("Audio Source in Scene", script.theAudioSource, typeof(AudioSource), true);
+            script.theAudioClip = (AudioClip)EditorGUILayout.ObjectField("Audio Clip in Project Folder", script.theAudioClip, typeof(AudioClip), true);
+
+
+        }
     }
 }

@@ -178,6 +178,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3392509351731472861, guid: cedf869762bc7cc47b51ee6fd291191d, type: 3}
+      propertyPath: MaxDistance
+      value: 11.751896
+      objectReference: {fileID: 0}
+    - target: {fileID: 3392509351731472861, guid: cedf869762bc7cc47b51ee6fd291191d, type: 3}
+      propertyPath: MinDistance
+      value: 5.567733
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cedf869762bc7cc47b51ee6fd291191d, type: 3}
 --- !u!21 &456116072
@@ -2646,6 +2654,10 @@ PrefabInstance:
     - target: {fileID: 3243275026109358310, guid: dbbb8fb068f5f1643bc3b5c102a8d8df, type: 3}
       propertyPath: ShapeModule.m_Scale.y
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3243275026109358310, guid: dbbb8fb068f5f1643bc3b5c102a8d8df, type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
       objectReference: {fileID: 0}
     - target: {fileID: 3243275026109358310, guid: dbbb8fb068f5f1643bc3b5c102a8d8df, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
