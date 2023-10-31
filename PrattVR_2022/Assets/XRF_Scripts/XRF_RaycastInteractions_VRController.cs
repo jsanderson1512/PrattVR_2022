@@ -350,18 +350,9 @@ public class XRF_RaycastInteractions_VRController : MonoBehaviour
         }
         else if (Teleportable)
         {
-            if (cameraRig.transform.up == endPointRotation && cameraRig.transform.up == Vector3.up)
-            {
-                //
+
                 cameraRig.transform.position = new Vector3(endPoint.x + (cameraRig.transform.position.x - cameraEye.transform.position.x), endPoint.y, endPoint.z + (cameraRig.transform.position.z - cameraEye.transform.position.z));
-            }
-            else
-            {
-                //here we're going to add an optional rotation thing... 
-                cameraRig.transform.rotation = Quaternion.FromToRotation(cameraRig.transform.up, Vector3.up);
-                cameraRig.transform.position = endPoint;
-                cameraRig.transform.rotation = Quaternion.FromToRotation(cameraRig.transform.up, endPointRotation);
-            }
+
         }
     }
 

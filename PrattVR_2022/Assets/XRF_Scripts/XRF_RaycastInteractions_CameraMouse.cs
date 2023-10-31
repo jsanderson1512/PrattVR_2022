@@ -114,7 +114,7 @@ public class XRF_RaycastInteractions_CameraMouse : MonoBehaviour
                     Teleportable = true;
                     feetIcon.transform.position = endPoint;
                     feetIcon.SetActive(true);
-                    feetIcon.transform.rotation = Quaternion.FromToRotation(Vector3.up, myRayHit.normal);
+                    //feetIcon.transform.rotation = Quaternion.FromToRotation(Vector3.up, myRayHit.normal);
 
                     grabable = false;
                 }
